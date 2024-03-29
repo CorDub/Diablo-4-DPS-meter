@@ -1,14 +1,17 @@
 def extract(data):
-    data_extract=[]
+    data_extract = []
     for x in data:
-        data_extract.append(x[1])
+        if x[2] > 0.5:  # Remove low confidence numbers
+            data_extract.append(x[1])
     return data_extract
+
 
 def change_obvious_letters_to_numbers(data_extract):
     for i, x in enumerate(data_extract):
         x = x.replace('S', '5').replace('s', '5')
         x = x.replace('L', '1').replace('l', '1').replace('I', '1').replace('i', '1')
-        x = x.replace('O', '0').replace('o', '0')
+        x = x.replace('O', '0').replace('o', '0').replace('u', '0')
+        x = x.replace('B', '8')
         data_extract[i] = x
     return data_extract
 
@@ -21,6 +24,14 @@ def remove_commas(data_extract):
                     parts[1] += '0'
                     x = ','.join(parts)
         data_extract[i] = x.replace(',', '')
+    return data_extract
+
+def remove_specific_symbols(data_extract):
+    symbols_to_remove = "-',_}\*:;]"
+    for i, x in enumerate(data_extract):
+        for symbol in symbols_to_remove:
+            x = x.replace(symbol, '')
+        data_extract[i] = x
     return data_extract
 
 def truncate_long_numbers(data_extract):
