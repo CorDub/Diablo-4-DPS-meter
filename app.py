@@ -32,8 +32,10 @@ def process_video_and_display_results(video):
         result = reader.readtext(np_image)
         data_extract = post_processing.extract(result)
         data = post_processing.remove_commas(data_extract)
-        final_number = post_processing.final_number(data)
-        frame_damage.append(final_number)
+        data = post_processing.change_obvious_letters_to_numbers(data)
+        data = post_processing.remove_specific_symbols(data)
+        final_number_data = post_processing.final_number(data)
+        frame_damage.append(final_number_data)
 
         for _ in range(frame_interval - 1):
             cap.read()
@@ -41,7 +43,7 @@ def process_video_and_display_results(video):
         current_frame = cap.get(cv2.CAP_PROP_POS_FRAMES)
         current_time = current_frame / fps
         time_stamps.append(current_time)
-        damage_values.append(final_number)
+        damage_values.append(final_number_data)
 
     cap.release()
 
