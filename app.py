@@ -4,6 +4,7 @@ import cv2
 import matplotlib.pyplot as plt
 import numpy as np
 import post_processing
+import pre_processing
 from io import BytesIO
 from PIL import Image
 
@@ -26,7 +27,9 @@ def process_video_and_display_results(video):
         ret, frame = cap.read()
         if not ret:
             break
-        result = reader.readtext(frame)
+        image = pre_processing.preprocess(frame)
+        np_image = np.array(image)
+        result = reader.readtext(np_image)
         data_extract = post_processing.extract(result)
         data = post_processing.remove_commas(data_extract)
         final_number = post_processing.final_number(data)

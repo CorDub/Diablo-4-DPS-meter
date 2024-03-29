@@ -4,4 +4,4 @@ gradio==4.23.0
 pillow==10.2.0
 matplotlib==3.8.3
 numpy==1.26.4
-imageio==2.34.0
+aiofiles==23.2.1
