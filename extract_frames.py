@@ -67,5 +67,5 @@ def extract_and_display_frames(video_path, output_folder, frame_interval=20):
 
 # Example usage:
 video_source = "raw_data/2024-03-25 21-44-44.mp4"
-output_dir = "raw_data/Frames video 25"
-extract_and_display_frames(video_source, output_dir, frame_interval=6)
+output_dir = "raw_data/Animation_test"
+extract_and_display_frames(video_source, output_dir, frame_interval=1)
