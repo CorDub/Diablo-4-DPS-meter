@@ -1,5 +1,7 @@
 import cv2
 import os
+import random
+import string
 
 def extract_and_display_frames(video_path, output_folder, frame_interval=20):
     """
@@ -66,6 +68,13 @@ def extract_and_display_frames(video_path, output_folder, frame_interval=20):
 
 
 # Example usage:
-video_source = "raw_data/2024-03-25 21-44-44.mp4"
-output_dir = "raw_data/Animation_test"
-extract_and_display_frames(video_source, output_dir, frame_interval=1)
+# video_source = "raw_data/2024-03-25 21-44-44.mp4"
+# output_dir = "raw_data/Animation_test"
+# extract_and_display_frames(video_source, output_dir, frame_interval=1)
+
+def check_processed_frames(frame, folder):
+    frame_name = "".join(random.choices(string.ascii_uppercase, k=5))
+    img_name = f'frame_{frame_name}.png'
+    img_path = os.path.join(folder, img_name)
+    cv2.imwrite(img_path, frame)
+    print("extracted")
