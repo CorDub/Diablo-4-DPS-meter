@@ -86,8 +86,9 @@ def process_video_and_display_results(video):
     ### Close video capture
     cap.release()
 
-    #### Delete duplicate damage values across frames
+    #### Delete duplicate damage values across frames to get final result and convert it in readable format
     final_result = delete_duplicates(damage_lists)
+    final_result_formatted = "{:,}".format(final_result)
 
     #### Calculate DPS
     dps = []
@@ -95,10 +96,10 @@ def process_video_and_display_results(video):
         dps.append(sum(frame_damage[x:x+5]))
 
     ### Calculate Average DPS
-    duration_seconds = total_frames / fps
-    average_per_second = final_result / duration_seconds
+    average_per_second = int(final_result / (total_frames/fps))
+    adps_formatted = "{:,}".format(average_per_second)
 
     # ### Create plot
     plt_image = create_plot(time_stamps, damage_values)
 
-    return f"Total damage in clip: {final_result}\nDamage per second: {int(average_per_second)}", plt_image
+    return f"Total damage in clip: {final_result_formatted}\nDamage per second: {adps_formatted}", plt_image
