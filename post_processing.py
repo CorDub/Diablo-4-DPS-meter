@@ -1,3 +1,8 @@
+import matplotlib.pyplot as plt
+import numpy as np
+from PIL import Image
+from io import BytesIO
+
 def extract(data):
     data_extract = []
     for x in data:
@@ -48,4 +53,32 @@ def final_number(data_extract):
     for x in data_extract:
         if x.isdigit():
             final_numbers.append(int(x))
-    return sum(final_numbers)
+    return final_numbers
+
+def delete_duplicates(damage_lists):
+    new_data=[]
+    for i, x in enumerate(damage_lists):
+        for y in x:
+            if not y in damage_lists[i-1]:
+                new_data.append(y)
+    return sum(new_data)
+
+def create_plot(time_stamps, damage_values):
+    ### Create plot
+    plt.figure(figsize=(10, 5))
+    plt.plot(time_stamps, damage_values, label='Damage Per Frame')
+    plt.plot(time_stamps, np.cumsum(damage_values), label='Cumulative Damage')
+    plt.xlabel('Time (s)')
+    plt.ylabel('Damage')
+    plt.title('Damage Over Time')
+    plt.legend()
+    plt.grid(True)
+
+    # Convert the graph to an in-memory image
+    buffer = BytesIO()
+    plt.savefig(buffer, format='png')
+    buffer.seek(0)
+
+    # Open the image from bytes using Pillow
+    plt_image = Image.open(buffer)
+    return plt_image

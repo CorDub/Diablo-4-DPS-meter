@@ -1,5 +1,5 @@
 from PIL import Image, ImageEnhance
-from io import BytesIO
+import numpy as np
 
 def preprocess(frame):
     image = Image.fromarray(frame)
@@ -9,4 +9,4 @@ def preprocess(frame):
     contrasted = contrast_enhancer.enhance(10)
     sharpness_enhancer = ImageEnhance.Sharpness(contrasted)
     sharp = sharpness_enhancer.enhance(2.5)
-    return sharp
+    return np.array(sharp)
