@@ -6,7 +6,7 @@ from io import BytesIO
 def extract(data):
     data_extract = []
     for x in data:
-        if x[2] > 0.5:  # Remove low confidence numbers
+        if x[2] > 0.2:  # Remove low confidence numbers
             data_extract.append(x[1])
     return data_extract
 
@@ -17,6 +17,7 @@ def change_obvious_letters_to_numbers(data_extract):
         x = x.replace('L', '1').replace('l', '1').replace('I', '1').replace('i', '1')
         x = x.replace('O', '0').replace('o', '0').replace('u', '0')
         x = x.replace('B', '8')
+        x = x.replace('G', '8')
         data_extract[i] = x
     return data_extract
 
@@ -41,8 +42,8 @@ def remove_specific_symbols(data_extract):
 
 def truncate_long_numbers(data_extract):
     for i, x in enumerate(data_extract):
-        if x.isdigit() and len(x) > 7:
-            data_extract[i] = x[:7]
+        if x.isdigit() and len(x) > 6:
+            data_extract[i] = x[:6]
     return data_extract
 
 def final_number(data_extract):
