@@ -8,6 +8,11 @@ def create_raw_data_log(data_extract):
         writer = csv.writer(csvfile)
         writer.writerow(data_extract)
 
+def create_damage_lists_log(data_extract):
+    with open('raw_data/data_lists_log.csv', mode="a") as csvfile:
+        writer = csv.writer(csvfile)
+        writer.writerow(data_extract)
+
 def create_processed_data_log(data_extract):
     with open('raw_data/processed_log.csv', mode="a") as csvfile:
         writer = csv.writer(csvfile)
@@ -30,9 +35,22 @@ def draw_boxes(data_extract, frame, output_folder, frame_count):
         bounding_boxes.append([(int(data_extract[x][0][0][0]), int(data_extract[x][0][0][1])),\
             (int(data_extract[x][0][2][0]), int(data_extract[x][0][2][1]))])
 
-    ###Apply the bounding_boxes to the corresponding frame, stored as an array within a list
+    ###Apply all the bounding_boxes to the corresponding frame
+    counter = 0
     for x in range(len(bounding_boxes)):
+        counter += 1
         boxed_image = cv2.rectangle(frame, bounding_boxes[x][0], bounding_boxes[x][1], (0,0,255), 2)
+        boxed_image = cv2.putText(
+            img = boxed_image,
+            text = str(counter),
+            org = ((bounding_boxes[x][0][0] - 40), (bounding_boxes[x][0][1] + 20)),
+            fontFace = cv2.FONT_HERSHEY_DUPLEX,
+            fontScale = 1.0,
+            color =  (255,255,255),
+            thickness = 1,
+            lineType = cv2.LINE_AA
+        )
+
 
     ###Create new folder to store the image
     if not os.path.exists(output_folder):

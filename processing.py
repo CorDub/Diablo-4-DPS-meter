@@ -2,7 +2,7 @@ import easyocr
 import cv2
 from pre_processing import preprocess
 from post_processing import extract, change_obvious_letters_to_numbers, remove_commas, remove_specific_symbols, truncate_long_numbers, final_number, delete_duplicates, create_plot
-from log import create_processed_data_log, create_raw_data_log, refresh_logs, draw_boxes
+from log import create_processed_data_log, create_raw_data_log, refresh_logs, draw_boxes, create_damage_lists_log
 
 reader = easyocr.Reader(['en'], gpu=True)
 
@@ -68,6 +68,9 @@ def process_video_and_display_results(video):
         ### prepare 3rd log:
         damage_lists.append(final_number_data)
 
+        ### NEW log for damage lists:
+        create_damage_lists_log(damage_lists)
+
         ### finish post processing:
         final_sum = sum(final_number_data)
 
@@ -92,8 +95,8 @@ def process_video_and_display_results(video):
 
     #### Calculate DPS
     dps = []
-    for x in range(0, len(frame_damage), 5):
-        dps.append(sum(frame_damage[x:x+5]))
+    for x in range(0, len(frame_damage), 4):
+        dps.append(sum(frame_damage[x:x+4]))
 
     ### Calculate Average DPS
     average_per_second = int(final_result / (total_frames/fps))
