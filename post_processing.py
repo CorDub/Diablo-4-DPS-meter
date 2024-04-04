@@ -3,14 +3,15 @@ import numpy as np
 from PIL import Image
 from io import BytesIO
 
+#Extract relevant data based on confidence level.
 def extract(data):
     data_extract = []
     for x in data:
-        if x[2] > 0.2:  # Remove low confidence numbers
+        if x[2] > 0.2:
             data_extract.append(x[1])
     return data_extract
 
-
+#Replace letters with numbers in the extracted data.
 def change_obvious_letters_to_numbers(data_extract):
     for i, x in enumerate(data_extract):
         x = x.replace('S', '5').replace('s', '5')
@@ -21,6 +22,7 @@ def change_obvious_letters_to_numbers(data_extract):
         data_extract[i] = x
     return data_extract
 
+#Remove commas and format data.
 def remove_commas(data_extract):
     for i, x in enumerate(data_extract):
         if ',' in x:
@@ -32,6 +34,7 @@ def remove_commas(data_extract):
         data_extract[i] = x.replace(',', '')
     return data_extract
 
+#Remove specific symbols from the data.
 def remove_specific_symbols(data_extract):
     symbols_to_remove = "-',_}\*:;]"
     for i, x in enumerate(data_extract):
@@ -40,22 +43,23 @@ def remove_specific_symbols(data_extract):
         data_extract[i] = x
     return data_extract
 
+#Truncate long numbers to prevent overlapping numbers from being long
 def truncate_long_numbers(data_extract):
     for i, x in enumerate(data_extract):
         if x.isdigit() and len(x) > 6:
             data_extract[i] = x[:6]
     return data_extract
 
+#Extract final numbers.
 def final_number(data_extract):
-
     data_extract = truncate_long_numbers(data_extract)
-
     final_numbers = []
     for x in data_extract:
         if x.isdigit():
             final_numbers.append(int(x))
     return final_numbers
 
+#Delete duplicate entries.
 def delete_duplicates(damage_lists):
     new_data=[]
     for i, x in enumerate(damage_lists):
@@ -64,6 +68,7 @@ def delete_duplicates(damage_lists):
                 new_data.append(y)
     return sum(new_data)
 
+#Create a plot of damage over time.
 def create_plot(time_stamps, damage_values):
     ### Create plot
     plt.figure(figsize=(10, 5))

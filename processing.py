@@ -1,8 +1,8 @@
 import easyocr
 import cv2
 from pre_processing import preprocess
-from post_processing import extract, change_obvious_letters_to_numbers, remove_commas, remove_specific_symbols, truncate_long_numbers, final_number, delete_duplicates, create_plot
-from log import create_processed_data_log, create_raw_data_log, refresh_logs, draw_boxes, create_damage_lists_log
+from post_processing import extract, change_obvious_letters_to_numbers, remove_commas, remove_specific_symbols, final_number, delete_duplicates, create_plot
+#from log import create_processed_data_log, create_raw_data_log, refresh_logs, draw_boxes, create_damage_lists_log
 
 reader = easyocr.Reader(['en'], gpu=True)
 
@@ -51,13 +51,13 @@ def process_video_and_display_results(video):
         result = reader.readtext(image)
 
         ### first log: draw bounding boxes for detected text
-        draw_boxes(result, image, f"raw_data/{vid_name}", frame_count)
+        #draw_boxes(result, image, f"raw_data/{vid_name}", frame_count)
 
         ### extract text from results
         data_extract = extract(result)
 
         ### second log : get raw extracted data from the model in a csv
-        create_raw_data_log(data_extract)
+        #create_raw_data_log(data_extract)
 
         ### post process:
         data = remove_commas(data_extract)
@@ -69,13 +69,13 @@ def process_video_and_display_results(video):
         damage_lists.append(final_number_data)
 
         ### NEW log for damage lists:
-        create_damage_lists_log(damage_lists)
+        #create_damage_lists_log(damage_lists)
 
         ### finish post processing:
         final_sum = sum(final_number_data)
 
         ### 3rd log: get processed extracted data in another csv log file
-        create_processed_data_log(final_number_data)
+        #create_processed_data_log(final_number_data)
 
         ### Store frame_damage:
         frame_damage.append(final_sum)
