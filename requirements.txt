@@ -1,7 +1,7 @@
 easyocr==1.7.1
 opencv-python==4.9.0.80
 gradio==4.23.0
-pillow==10.2.0
+pillow==10.3.0
 matplotlib==3.8.3
 numpy==1.26.4
 aiofiles==23.2.1
