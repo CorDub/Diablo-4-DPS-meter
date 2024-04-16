@@ -1,8 +1,7 @@
 import easyocr
 import cv2
-from pre_processing import preprocess
-from post_processing import extract, change_obvious_letters_to_numbers, remove_commas, remove_specific_symbols, final_number, delete_duplicates, create_plot
-#from log import create_processed_data_log, create_raw_data_log, refresh_logs, draw_boxes, create_damage_lists_log
+from D4DPSM.pre_processing import preprocess
+from D4DPSM.post_processing import extract, change_obvious_letters_to_numbers, remove_commas, remove_specific_symbols, final_number, delete_duplicates, create_plot
 
 reader = easyocr.Reader(['en'], gpu=True)
 
@@ -26,9 +25,6 @@ def process_video_and_display_results(video):
     damage_values = []
     damage_lists = []
 
-    ### Delete logs before creating new ones:
-    refresh_logs(vid_name)
-
     ### Start processing frames
     while cap.isOpened():
         ret, frame = cap.read()
@@ -50,14 +46,8 @@ def process_video_and_display_results(video):
         ### pass the frame through the model
         result = reader.readtext(image)
 
-        ### first log: draw bounding boxes for detected text
-        #draw_boxes(result, image, f"raw_data/{vid_name}", frame_count)
-
         ### extract text from results
         data_extract = extract(result)
-
-        ### second log : get raw extracted data from the model in a csv
-        #create_raw_data_log(data_extract)
 
         ### post process:
         data = remove_commas(data_extract)
@@ -65,17 +55,11 @@ def process_video_and_display_results(video):
         data = remove_specific_symbols(data)
         final_number_data = final_number(data)
 
-        ### prepare 3rd log:
+        ### prepare log:
         damage_lists.append(final_number_data)
-
-        ### NEW log for damage lists:
-        #create_damage_lists_log(damage_lists)
 
         ### finish post processing:
         final_sum = sum(final_number_data)
-
-        ### 3rd log: get processed extracted data in another csv log file
-        #create_processed_data_log(final_number_data)
 
         ### Store frame_damage:
         frame_damage.append(final_sum)
