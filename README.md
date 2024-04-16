@@ -10,6 +10,20 @@ This project is a tool designed to assist Diablo 4 players in calculating total 
 
 - **Integration of EasyOCR:** Utilizes EasyOCR as the base for Optical Character Recognition (OCR), enabling detection and extraction of damage numbers from the game screen.
 
+## Installation
+
+- **Clone the GitHub package:** Use the following terminal command:
+```
+gh repo clone CorDub/Diablo-4-DPS-Meter
+```
+
+- **Install all dependencies:** Get into the Diablo-4-DPS-Meter folder and use the following terminal command (don't forget the dot):
+```
+pip install -e .
+```
+
+- **Run the app:** Once everything is installed, run the app with the command line `python D4DPSM/app.py`. This will print within the terminal "Running on local URL" and "Runnning on public URL" with two URLs. Copy either and paste them into your web browser. This will display the web interface. Once it is available, upload a video of your gameplay and click "Submit". Just wait for processing and you will be able to know how much damage you dealt :)
+
 ## Credits
 
 - Developed by [Corentin Dubois](https://github.com/CorDub)
